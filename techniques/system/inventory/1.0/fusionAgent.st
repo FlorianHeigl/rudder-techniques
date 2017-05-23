@@ -496,6 +496,8 @@ bundle agent addInformationsToInventory
       "RUDDERUUID"     string => execresult("/usr/local/sbin/dmidecode -s system-uuid", "noshell");
     linux.!xen::
       "RUDDERUUID"     string => execresult("/usr/sbin/dmidecode -s system-uuid", "noshell");
+    linux.(SLES_12.xen_dom0)::
+      "RUDDERUUID"     string => execresult("/usr/sbin/dmidecode -s system-uuid", "noshell");
     linux.xen.xenrudderuuid:: # xenrudderuuid is defined at second pass
       "RUDDERUUID"     string => "${vmarray[1]}";
     # all cases should have been covered, so no default
@@ -504,7 +506,7 @@ bundle agent addInformationsToInventory
     # define VMRUDDERUUID when we have xen
     xen.SuSE.xen_domu_pv::
       "VMRUDDERUUID_cmd" string => "/bin/xenstore-read vm";
-    xen.((SuSE.xen_dom0)|centos|redhat)::
+    xen.((SuSE_11.xen_dom0)|centos|redhat)::
       "VMRUDDERUUID_cmd" string => "/usr/bin/xenstore-read vm";
     xen.!SuSE.!centos.!redhat::
       "VMRUDDERUUID_cmd" string => "/usr/sbin/xenstore-read vm";
@@ -535,7 +537,8 @@ bundle agent addInformationsToInventory
 
     linux.(!xen.!armv6l.!armv7l)::
       "RUDDERUUID_cmd" string => "/usr/sbin/dmidecode -s system-uuid";
-
+    linux.SLES12.xen_dom0::
+      "RUDDERUUID_cmd" string => "/usr/sbin/dmidecode -s system-uuid";
     aix::
       "RUDDERUUID_cmd" string => "/usr/bin/uname -f";
 
